@@ -1,8 +1,3 @@
-import  { User } from './User'
+import axios from 'axios';
 
-const user = new User({ name:'Ivan', age: 16 })
-
-user.set({ age: 18 })
-
-console.log(user.get('name'))
-console.log(user.get('age'))
+axios.post('http://localhost:3000/users', { name: 'User name', age: 31 })
