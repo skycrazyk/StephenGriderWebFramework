@@ -48,4 +48,17 @@ export class User {
       this.set(res.data);
     });
   }
+
+  save(): void {
+    const data = this.attrs.getAll();
+
+    this.sync
+      .save(data)
+      .then(() => {
+        this.trigger('save');
+      })
+      .catch(() => {
+        this.trigger('save error');
+      });
+  }
 }
