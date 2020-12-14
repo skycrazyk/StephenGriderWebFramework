@@ -1,6 +1,7 @@
 import { Eventing } from './Eventing';
 import { Sync } from './Sync';
 import { Attributes } from './Attributes';
+import { AxiosResponse } from 'axios';
 
 export interface UserProps {
   name?: string;
@@ -8,7 +9,7 @@ export interface UserProps {
   id?: number;
 }
 
-const rootUrl = 'http://localhost:1234/user';
+const rootUrl = 'http://localhost:3000/users';
 
 export class User {
   events: Eventing = new Eventing();
@@ -34,5 +35,17 @@ export class User {
   set(data: UserProps): void {
     this.attrs.set(data);
     this.events.trigger('change');
+  }
+
+  fetch(): void {
+    const id = this.attrs.get('id');
+
+    if (!id) {
+      throw new Error('Cannot fetch without an id');
+    }
+
+    this.sync.fetch(id).then((res: AxiosResponse) => {
+      this.set(res.data);
+    });
   }
 }
