@@ -23,9 +23,8 @@ export class UserForm extends View<User, UserProps> {
 
     if (input) {
       const name = input.value;
+      this.model.set({ name });
     }
-
-    this.model.set({ name });
   };
 
   template(): string {
