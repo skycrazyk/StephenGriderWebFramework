@@ -1,16 +1,18 @@
 import 'reflect-metadata';
+import { Methods } from './Methods';
+import { MetadataKeys } from './MetadataKeys';
 
-export function get(path: string) {
-  return function (target: any, key: string, desc: PropertyDescriptor) {
-    Reflect.defineMetadata('path', path, target, key);
+function routeBundler(method: string) {
+  return function get(path: string) {
+    return function (target: any, key: string, desc: PropertyDescriptor) {
+      Reflect.defineMetadata(MetadataKeys.path, path, target, key);
+      Reflect.defineMetadata(MetadataKeys.method, method, target, key);
+    };
   };
 }
 
-export function controller(routePrefix: string) {
-  return function (target: Function) {
-    for (let key in target.prototype) {
-      const routeHandler = target.prototype[key];
-      const path = Reflect.getMetadata('path', target, key);
-    }
-  };
-}
+export const get = routeBundler(Methods.get);
+export const post = routeBundler(Methods.post);
+export const patch = routeBundler(Methods.patch);
+export const del = routeBundler(Methods.del);
+export const put = routeBundler(Methods.put);
