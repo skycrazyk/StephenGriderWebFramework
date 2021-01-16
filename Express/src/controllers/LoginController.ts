@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { get, controller, use } from './decorators';
+import { get, controller, use, post, bodyValidator } from './decorators';
 
 @controller('/auth')
 class LogitController {
@@ -21,5 +21,18 @@ class LogitController {
       </div>
     </form>
   `);
+  }
+
+  @post('/login')
+  @bodyValidator('email', 'password')
+  loginRequest(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    if (email === 'hi@hi.com' && password === 'pass') {
+      req.session = { loggedIn: true };
+      res.redirect('/');
+    } else {
+      res.send('Invalid email of password');
+    }
   }
 }
