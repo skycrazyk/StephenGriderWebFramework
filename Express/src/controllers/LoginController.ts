@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { get, controller, use, post, bodyValidator } from './decorators';
+import { get, controller, post, bodyValidator } from './decorators';
 
 @controller('/auth')
 class LogitController {
