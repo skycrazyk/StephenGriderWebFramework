@@ -35,4 +35,10 @@ class LogitController {
       res.send('Invalid email of password');
     }
   }
+
+  @get('/logout')
+  getLogout(req: Request, res: Response) {
+    req.session = undefined;
+    res.redirect('/');
+  }
 }
